@@ -37,7 +37,8 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
        	markerContentHTML += '<div class="pop-dens">Population Density: ' + city.lastPopDensity + '</div>';
        	markerContentHTML += '<div class="state">State: ' + city.state + '</div>';
        	markerContentHTML += '<div class="land-area">Land Area: ' + city.landArea + '</div>';
-       	markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a>';
+       	markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
+       	markerContentHTML += '<a href="#" onclick="displayGolfCourses('+lat+','+lon+')">Golf</a>';
        	markerContentHTML += '</div>';
 
        	marker.content = markerContentHTML;
@@ -56,22 +57,45 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		google.maps.event.trigger($scope.markers[i-1], "click")
 	}
 
-	$scope.displayGolfCourses = function(latLon){
-		console.log(latLon)
-		latLon = latLon.split(',')
-		var lat = latLon[0];
-		var lon = latLon[1];
-		var searchLocation = new google.maps.LatLng(lat, lon)
-		var request = {
-			location: searchLocation,
-			radius: 25,
-			query: "golf course"
+	displayGolfCourses = function(lat, lon){
+		
+		var pyrmont = {lat: lat, lng: lon};
+
+		  map = new google.maps.Map(document.getElementById('map'), {
+		    center: pyrmont,
+		    zoom: 12
+		  });
+
+		  infowindow = new google.maps.InfoWindow();
+
+		  var service = new google.maps.places.PlacesService(map);
+		  service.nearbySearch({
+		    location: pyrmont,
+		    radius: "500",
+		    types: ['store']
+		  }, callback);
 		}
-		service = new google.maps.places.PlacesService(map);
-		service.textSearch(request, function(results, status){
-			console.log(results);
-		})
-	}
+
+		function callback(results, status) {
+		  if (status === google.maps.places.PlacesServiceStatus.OK) {
+		    for (var i = 0; i < results.length; i++) {
+		      createMarker(results[i]);
+		    }
+		  }
+		}
+
+		function createMarker(place) {
+		  var placeLoc = place.geometry.location;
+		  var marker = new google.maps.Marker({
+		    map: map,
+		    position: place.geometry.location
+		  });
+
+		  google.maps.event.addListener(marker, 'click', function() {
+		    infowindow.setContent(place.name);
+		    infowindow.open(map, this);
+		  });
+		}
 
 	$scope.updateMarkers = function(cities){
 		for(i = 0; i < $scope.markers.length; i++){
