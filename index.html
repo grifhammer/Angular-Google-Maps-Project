@@ -16,9 +16,18 @@
 <body ng-controller="mapCtrl">
 	<div id="map"></div>
 	<div id="list-window">
-		<div class="city" ng-repeat="city in cities">
-			{{city.yearRank}}: {{city.city}}
-		</div>
+		<form ng-submit="updateMarkers(searchString)">
+			<input id="filter-input" ng-model='searchString' type='text'>
+			<input type='submit' value="Update Map">
+			<div class="city" ng-repeat="city in cities | filter:searchString">
+				<!-- {{city.yearRank}}: {{city.city}} -->
+				<a href="#" class="btn btn-primary btn-sm" ng-click="triggerClick(city.yearRank)">
+					{{city.yearRank}}: {{city.city}}
+				</a>
+			</div>
+		</form>
+	</div>
+	<div id="map-panel">
 	</div>
 
 </body>
