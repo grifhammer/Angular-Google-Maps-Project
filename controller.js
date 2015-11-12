@@ -56,10 +56,23 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		google.maps.event.trigger($scope.markers[i-1], "click")
 	}
 
-	$scope.displayGolfCourses = function(city, state){
-
+	$scope.displayGolfCourses = function(latLon){
+		console.log(latLon)
+		latLon = latLon.split(',')
+		var lat = latLon[0];
+		var lon = latLon[1];
+		var searchLocation = new google.maps.LatLng(lat, lon)
+		var request = {
+			location: searchLocation,
+			radius: 25,
+			query: "golf course"
+		}
+		service = new google.maps.places.PlacesService(map);
+		service.textSearch(request, function(results, status){
+			console.log(results);
+		})
 	}
-	
+
 	$scope.updateMarkers = function(cities){
 		for(i = 0; i < $scope.markers.length; i++){
 			$scope.markers[i].setMap(null);
