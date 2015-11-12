@@ -56,6 +56,10 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		google.maps.event.trigger($scope.markers[i-1], "click")
 	}
 
+	$scope.displayGolfCourses = function(city, state){
+
+	}
+	
 	$scope.updateMarkers = function(cities){
 		for(i = 0; i < $scope.markers.length; i++){
 			$scope.markers[i].setMap(null);
@@ -64,6 +68,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 			createMarker($scope.filteredCities[i], i);
 		}
 	}
+
 
 	getDirections = function(lat, lon){
 		var directionsService = new google.maps.DirectionsService();
