@@ -63,7 +63,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 
 		  map = new google.maps.Map(document.getElementById('map'), {
 		    center: pyrmont,
-		    zoom: 12
+		    zoom: 14
 		  });
 
 		  infowindow = new google.maps.InfoWindow();
@@ -89,7 +89,8 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		  var placeLoc = place.geometry.location;
 		  var marker = new google.maps.Marker({
 		    map: map,
-		    position: place.geometry.location
+		    position: place.geometry.location,
+		    icon: "assets/images/beericon.png"
 		  });
 
 		  google.maps.event.addListener(marker, 'click', function() {
