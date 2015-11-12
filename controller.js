@@ -15,11 +15,19 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		var latLon = city.latLon.split(',')
 		var lat = latLon[0];
 		var lon = latLon[1];
+		var icon = ''
+		if(index == 0){
+			icon = 'assets/images/1.png';
+		} else if(index == 38){
+			icon = 'assets/images/atl.png';
+		}else{
+			icon = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=•%7CFE7569';
+		}
 		var marker = new google.maps.Marker({
 			map: $scope.map,
 			position: new google.maps.LatLng(lat,lon),
 			title: city.city,
-			icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=•%7CFE7569'
+			icon: icon
 		});
 
 		markerContentHTML = '<div class="infoWindowContent">';
@@ -48,9 +56,12 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		google.maps.event.trigger($scope.markers[i-1], "click")
 	}
 
-	$scope.updateMarkers = function(){
+	$scope.updateMarkers = function(cities){
 		for(i = 0; i < $scope.markers.length; i++){
 			$scope.markers[i].setMap(null);
+		}
+		for(i = 0; i < $scope.filteredCities.length; i++){
+			createMarker($scope.filteredCities[i], i);
 		}
 	}
 
