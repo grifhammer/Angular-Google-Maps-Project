@@ -80,17 +80,17 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 			console.log(results);
 		  if (status === google.maps.places.PlacesServiceStatus.OK) {
 		    for (var i = 0; i < results.length; i++) {
-		      createBoozeMarker(results[i]);
+		      createBoozeMarker(results[i], "assets/images/beericon.png");
 		    }
 		  }
 		}
 
-		function createBoozeMarker(place) {
+		function createBoozeMarker(place, icon) {
 		  var placeLoc = place.geometry.location;
 		  var marker = new google.maps.Marker({
 		    map: map,
 		    position: place.geometry.location,
-		    icon: "assets/images/beericon.png"
+		    icon: icon
 		  });
 
 		  google.maps.event.addListener(marker, 'click', function() {
