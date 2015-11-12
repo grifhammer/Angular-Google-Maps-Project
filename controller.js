@@ -38,7 +38,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
        	markerContentHTML += '<div class="state">State: ' + city.state + '</div>';
        	markerContentHTML += '<div class="land-area">Land Area: ' + city.landArea + '</div>';
        	markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
-       	markerContentHTML += '<a href="#" onclick="displayGolfCourses('+lat+','+lon+')">Golf</a>';
+       	markerContentHTML += '<a href="#" onclick="displayGolfCourses('+lat+','+lon+')">Booze</a>';
        	markerContentHTML += '</div>';
 
        	marker.content = markerContentHTML;
@@ -72,7 +72,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		  service.nearbySearch({
 		    location: pyrmont,
 		    radius: "500",
-		    types: ['store']
+		    types: ['liquor_store']
 		  }, callback);
 		}
 
