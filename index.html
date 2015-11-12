@@ -15,6 +15,11 @@
 </head>
 <body ng-controller="mapCtrl">
 	<div id="map"></div>
+	<div id="list-window">
+		<div class="city" ng-repeat="city in cities">
+			{{city.yearRank}}: {{city.city}}
+		</div>
+	</div>
 
 </body>
 </html>
