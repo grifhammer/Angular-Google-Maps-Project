@@ -38,7 +38,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
        	markerContentHTML += '<div class="state">State: ' + city.state + '</div>';
        	markerContentHTML += '<div class="land-area">Land Area: ' + city.landArea + '</div>';
        	markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
-       	markerContentHTML += '<a href="#" onclick="displayGolfCourses('+lat+','+lon+')">Booze</a>';
+       	markerContentHTML += '<a href="#" onclick="displayBooze('+lat+','+lon+')">Booze</a>';
        	markerContentHTML += '</div>';
 
        	marker.content = markerContentHTML;
@@ -57,7 +57,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		google.maps.event.trigger($scope.markers[i-1], "click")
 	}
 
-	displayGolfCourses = function(lat, lon){
+	displayBooze = function(lat, lon){
 		
 		var pyrmont = {lat: lat, lng: lon};
 
@@ -71,20 +71,21 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		  var service = new google.maps.places.PlacesService(map);
 		  service.nearbySearch({
 		    location: pyrmont,
-		    radius: "500",
+		    radius: "5000",
 		    types: ['liquor_store']
 		  }, callback);
 		}
 
 		function callback(results, status) {
+			console.log(results);
 		  if (status === google.maps.places.PlacesServiceStatus.OK) {
 		    for (var i = 0; i < results.length; i++) {
-		      createMarker(results[i]);
+		      createBoozeMarker(results[i]);
 		    }
 		  }
 		}
 
-		function createMarker(place) {
+		function createBoozeMarker(place) {
 		  var placeLoc = place.geometry.location;
 		  var marker = new google.maps.Marker({
 		    map: map,
