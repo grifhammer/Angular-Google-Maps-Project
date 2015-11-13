@@ -74,16 +74,36 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 
 	// function that creates content for the markers to include more info about the place
 	function createMarkerContent(place){
-		console.log(place);
-		markerContentHTML = '<div class="markerWindowContent">';
+		
+		var request = {
+			placeId: place.place_id
+		};
+
+		var detailsReturned = false;
+		service = new google.maps.places.PlacesService(map);
+		service.getDetails(request, callback);
+
+		function callback(results, status) {
+			if (status == google.maps.places.PlacesServiceStatus.OK) {
+				place = results
+				detailsReturned = true;
+				
+				console.log(place)
+				
+			}
+		}
+		setTimeout (function(){
+			markerContentHTML = '<div class="markerWindowContent">';
 		markerContentHTML += '<div class="name">Name: ' + place.name + '</div>';
 		markerContentHTML += '<div class="address">Address: ' + place.vicinity + '</div>';
-		markerContentHTML += '<div class="hours">Is is open?? ' + place.opening_hours.open_now + '</div>';
-		markerContentHTML += '<div class="rating">They Have a Rating of..: ' + place.rating + '</div>';
+		markerContentHTML += '<div class="hours">Is it open?: ' + place.opening_hours.open_now + '</div>';
+		markerContentHTML += '<div class="rating">Rating: ' + place.rating + '</div>';
 		// markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
 		markerContentHTML += '</div>';
-
-		return markerContentHTML
+		
+		return markerContentHTML;
+		}, 500);
+		
 
 	}
 	// function to display the type:liquor_store when the link in the info box is clicked
