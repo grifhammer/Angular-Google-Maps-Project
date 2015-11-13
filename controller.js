@@ -65,6 +65,10 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 			position: place.geometry.location,
 			icon: place.icon
 		});
+		google.maps.event.addListener(marker, 'click', function() {
+			infowindow.setContent(place.name);
+			infowindow.open(map, this);
+		});
 	}
 
 	displayBooze = function(lat, lon){
@@ -94,11 +98,6 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 				}
 			}
 		}
-
-		google.maps.event.addListener(marker, 'click', function() {
-			infowindow.setContent(place.name);
-			infowindow.open(map, this);
-		});
 	}	
 
 
@@ -129,11 +128,6 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 				}
 			}
 		}
-
-		google.maps.event.addListener(marker, 'click', function() {
-			infowindow.setContent(place.name);
-			infowindow.open(map, this);
-		});
 	}
 
 	$scope.updateMarkers = function(cities){
