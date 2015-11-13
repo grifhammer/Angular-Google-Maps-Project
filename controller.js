@@ -44,7 +44,6 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 
 	var createCityMarkers = function(){
     	$scope.cities = cities
-
 	    for( i=0; i < cities.length; i++){
 	    	createMarker(cities[i], i)
 	    }
@@ -94,10 +93,10 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 			placeId: place.place_id
 		};
 
+		console.log(place);
 		var detailsReturned = false;
 		service = new google.maps.places.PlacesService(map);
 		service.getDetails(request, callback);
-
 		function callback(results, status) {
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
 				place = results
@@ -112,6 +111,10 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 				if (place.photos != undefined){
 					markerContentHTML += '<div class="markerPhoto"><img src="'+place.photos[0].getUrl({'maxWidth': 200, 'maxHeight': 200})+'"/></div>';
 				}
+				var weatherURL = 'http://api.openweathermap.org/data/2.5/weather?lat='+fakethis.position.lat()+'&lon='+fakethis.position.lng()+'&APPID=1d04e62091eabb4695bb6e9993976418';
+				$.getJSON(weatherURL, function(weatherData){
+					
+				});
 				markerContentHTML = 
 				markerContentHTML += '<div class="name">Name: ' + place.name + '</div>';
 				markerContentHTML += '<div class="address">'+place.adr_address+'</div>';
