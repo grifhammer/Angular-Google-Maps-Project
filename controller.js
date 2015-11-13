@@ -58,6 +58,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		google.maps.event.trigger($scope.markers[i-1], "click")
 	}
 
+	//function that adds the default google icon for the place searched for
 	function createSelectedMarker(place) {
 		var placeLoc = place.geometry.location;
 		var marker = new google.maps.Marker({
@@ -66,17 +67,18 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 			icon: place.icon
 		});
 		google.maps.event.addListener(marker, 'click', function() {
-			infowindow.setContent(createMarkerContent());
+			infowindow.setContent(createMarkerContent(place));
 			infowindow.open(map, this);
 		});
 	}
 
+	// function that creates content for the markers to include more info about the place
 	function createMarkerContent(place){
 		console.log(place);
 		markerContentHTML = '<div class="markerWindowContent">';
 		markerContentHTML += '<div class="name">Name: ' + place.name + '</div>';
-		markerContentHTML += '<div class="address">Address: ' + place.formatted_address + '</div>';
-		markerContentHTML += '<div class="hours">Hours: ' + place.opening_hours + '</div>';
+		markerContentHTML += '<div class="address">Address: ' + place.vicinity + '</div>';
+		markerContentHTML += '<div class="hours">Is is open?? ' + place.opening_hours.open_now + '</div>';
 		markerContentHTML += '<div class="rating">They Have a Rating of..: ' + place.rating + '</div>';
 		// markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
 		markerContentHTML += '</div>';
@@ -84,7 +86,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		return markerContentHTML
 
 	}
-
+	// function to display the type:liquor_store when the link in the info box is clicked
 	displayBooze = function(lat, lon){
 		
 		var pyrmont = {lat: lat, lng: lon};
@@ -108,13 +110,14 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 			
 			if (status === google.maps.places.PlacesServiceStatus.OK) {
 				for (var i = 0; i < results.length; i++) {
+					console.log(results[i]);
 					createSelectedMarker(results[i]);
 				}
 			}
 		}
 	}	
 
-
+	// function to display the type:bar when the link in the info box is clicked
 	displayBar = function(lat, lon){
 
 		var something = {lat: lat, lng: lon};
