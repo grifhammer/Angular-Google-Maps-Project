@@ -66,9 +66,23 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 			icon: place.icon
 		});
 		google.maps.event.addListener(marker, 'click', function() {
-			infowindow.setContent(place.name);
+			infowindow.setContent(createMarkerContent());
 			infowindow.open(map, this);
 		});
+	}
+
+	function createMarkerContent(place){
+		console.log(place);
+		markerContentHTML = '<div class="markerWindowContent">';
+		markerContentHTML += '<div class="name">Name: ' + place.name + '</div>';
+		markerContentHTML += '<div class="address">Address: ' + place.formatted_address + '</div>';
+		markerContentHTML += '<div class="hours">Hours: ' + place.opening_hours + '</div>';
+		markerContentHTML += '<div class="rating">They Have a Rating of..: ' + place.rating + '</div>';
+		// markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
+		markerContentHTML += '</div>';
+
+		return markerContentHTML
+
 	}
 
 	displayBooze = function(lat, lon){
@@ -91,7 +105,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 
 
 		function callback(results, status) {
-			console.log(results);
+			
 			if (status === google.maps.places.PlacesServiceStatus.OK) {
 				for (var i = 0; i < results.length; i++) {
 					createSelectedMarker(results[i]);
