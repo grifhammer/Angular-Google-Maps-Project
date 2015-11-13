@@ -93,7 +93,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 				}
 				markerContentHTML = '<div class="markerWindowContent">';
 				markerContentHTML += '<div class="name">Name: ' + place.name + '</div>';
-				markerContentHTML += '<div class="address">Address: ' + place.vicinity + '</div>';
+				markerContentHTML += '<div class="address">'+place.adr_address+'</div>';
 				markerContentHTML += '<div class="hours">Open Hours: ' + place.opening_hours.weekday_text[weekDay] + '</div>';
 				markerContentHTML += '<div class="rating">Rating: ' + place.rating + '</div>';
 				// markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
