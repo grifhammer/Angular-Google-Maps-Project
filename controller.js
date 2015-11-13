@@ -1,19 +1,5 @@
 //Angular App Module and controller
 angular.module('myApp', []).controller('mapCtrl', function($scope){
-	resetMap = function(){
-	var mapOptions = {
-		zoom: 4,
-		//Center of the US
-		center: new google.maps.LatLng(40.0000, -98.0000)
-	}
-
-	$scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
-	$scope.markers = [];
-	}
-
-	resetMap();
-
-	var infoWindow = new google.maps.InfoWindow()
 
 	var createMarker = function(city, index){
 		var latLon = city.latLon.split(',')
@@ -54,9 +40,34 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		});
 
 		$scope.markers.push(marker);
-
-
 	}
+
+	var createCityMarkers = function(){
+    	$scope.cities = cities
+
+	    for( i=0; i < cities.length; i++){
+	    	createMarker(cities[i], i)
+	    }
+    }
+
+	$scope.resetMap = function(){
+			var mapOptions = {
+				zoom: 4,
+			//Center of the US
+			center: new google.maps.LatLng(40.0000, -98.0000)
+		}
+
+		$scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+		$scope.markers = [];
+
+		createCityMarkers();
+	}
+
+	$scope.resetMap();
+
+	var infoWindow = new google.maps.InfoWindow()
+
+	
 
 	$scope.triggerClick = function(i){
 		google.maps.event.trigger($scope.markers[i-1], "click")
@@ -105,16 +116,10 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 				markerContentHTML += '</div>';
 				console.log(place)
 				infowindow.setContent(markerContentHTML);
-            	infowindow.open(map, fakethis);
+				infowindow.open(map, fakethis);
 			}
 		}
 		
-			
-			
-			
-		
-		
-
 	}
 	// function to display the type:liquor_store when the link in the info box is clicked
 	displayBooze = function(lat, lon){
@@ -211,10 +216,9 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
         });
     }
 
-    $scope.cities = cities
-    for( i=0; i < cities.length; i++){
-    	createMarker(cities[i], i)
-    }
+    createCityMarkers();
+    
+    
 });
 
 
