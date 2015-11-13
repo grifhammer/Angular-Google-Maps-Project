@@ -38,7 +38,8 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
        	markerContentHTML += '<div class="state">State: ' + city.state + '</div>';
        	markerContentHTML += '<div class="land-area">Land Area: ' + city.landArea + '</div>';
        	markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
-       	markerContentHTML += '<a href="#" onclick="displayBooze('+lat+','+lon+')">Booze</a>';
+       	markerContentHTML += '<a href="#" onclick="displayBooze('+lat+','+lon+')">Booze</a><br>';
+       	markerContentHTML += '<a href="#" onclick="displayBar('+lat+','+lon+')">Bars</a>';
        	markerContentHTML += '</div>';
 
        	marker.content = markerContentHTML;
@@ -56,6 +57,14 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 	$scope.triggerClick = function(i){
 		google.maps.event.trigger($scope.markers[i-1], "click")
 	}
+
+	function createSelectedMarker(place, icon) {
+			  var placeLoc = place.geometry.location;
+			  var marker = new google.maps.Marker({
+			    map: map,
+			    position: place.geometry.location,
+			    icon: icon
+			  });
 
 	displayBooze = function(lat, lon){
 		
@@ -85,14 +94,41 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		  }
 		}
 
-		function createSelectedMarker(place, icon) {
-		  var placeLoc = place.geometry.location;
-		  var marker = new google.maps.Marker({
-		    map: map,
-		    position: place.geometry.location,
-		    icon: icon
+		  google.maps.event.addListener(marker, 'click', function() {
+		    infowindow.setContent(place.name);
+		    infowindow.open(map, this);
+		  });
+		}
+
+
+	displayBar = function(lat, lon){
+		
+		var something = {lat: lat, lng: lon};
+
+		  map = new google.maps.Map(document.getElementById('map'), {
+		    center: something,
+		    zoom: 14
 		  });
 
+		  infowindow = new google.maps.InfoWindow();
+
+		  var service = new google.maps.places.PlacesService(map);
+		  service.nearbySearch({
+		    location: something,
+		    radius: "5000",
+		    types: ['bar']
+		  }, callback);
+		
+
+		function callback(results, status) {
+			console.log(results);
+		  if (status === google.maps.places.PlacesServiceStatus.OK) {
+		    for (var i = 0; i < results.length; i++) {
+		      createSelectedMarker(results[i], "bar.png");
+		    }
+		  }
+		}
+		
 		  google.maps.event.addListener(marker, 'click', function() {
 		    infowindow.setContent(place.name);
 		    infowindow.open(map, this);
@@ -107,6 +143,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 			createMarker($scope.filteredCities[i], i);
 		}
 	}
+	
 
 
 	getDirections = function(lat, lon){
