@@ -109,6 +109,10 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 					weekDay = 6;
 				}
 				markerContentHTML = '<div class="markerWindowContent">';
+				if (place.photos != undefined){
+					markerContentHTML += '<div class="markerPhoto"><img src="'+place.photos[0].getUrl({'maxWidth': 200, 'maxHeight': 200})+'"/></div>';
+				}
+				markerContentHTML = 
 				markerContentHTML += '<div class="name">Name: ' + place.name + '</div>';
 				markerContentHTML += '<div class="address">'+place.adr_address+'</div>';
 				markerContentHTML += '<div class="phoneNumber">Phone Number: '+place.formatted_phone_number + '</div>';
