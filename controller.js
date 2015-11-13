@@ -100,6 +100,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		function callback(results, status) {
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
 				place = results
+				console.log(place)
 				detailsReturned = true;
 				date = new Date();
 				var weekDay = date.getDay()-1;
@@ -110,11 +111,15 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 				markerContentHTML += '<div class="name">Name: ' + place.name + '</div>';
 				markerContentHTML += '<div class="address">'+place.adr_address+'</div>';
 				markerContentHTML += '<div class="phoneNumber">Phone Number: '+place.formatted_phone_number + '</div>';
-				markerContentHTML += '<div class="hours">Open Hours: ' + place.opening_hours.weekday_text[weekDay] + '</div>';
+				if (place.opening_hours != undefined){
+					markerContentHTML += '<div class="hours">Open Hours: ' + place.opening_hours.weekday_text[weekDay] + '</div>';
+				}
+				if (place.rating != undefined){
 				markerContentHTML += '<div class="rating">Rating: ' + place.rating + '</div>';
+				}
 				// markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
 				markerContentHTML += '</div>';
-				console.log(place)
+				
 				infowindow.setContent(markerContentHTML);
 				infowindow.open(map, fakethis);
 			}
