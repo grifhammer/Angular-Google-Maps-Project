@@ -67,13 +67,12 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 			icon: place.icon
 		});
 		google.maps.event.addListener(marker, 'click', function() {
-			infowindow.setContent(createMarkerContent(place));
-			infowindow.open(map, this);
+			createMarkerContent(place, this);
 		});
 	}
 
 	// function that creates content for the markers to include more info about the place
-	function createMarkerContent(place){
+	function createMarkerContent(place, fakethis){
 		
 		var request = {
 			placeId: place.place_id
@@ -87,22 +86,28 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
 				place = results
 				detailsReturned = true;
-				
+				date = new Date();
+				var weekDay = date.getDay()-1;
+				if (weekDay < 0) {
+					weekDay = 6;
+				}
+				markerContentHTML = '<div class="markerWindowContent">';
+				markerContentHTML += '<div class="name">Name: ' + place.name + '</div>';
+				markerContentHTML += '<div class="address">Address: ' + place.vicinity + '</div>';
+				markerContentHTML += '<div class="hours">Open Hours: ' + place.opening_hours.weekday_text[weekDay] + '</div>';
+				markerContentHTML += '<div class="rating">Rating: ' + place.rating + '</div>';
+				// markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
+				markerContentHTML += '</div>';
 				console.log(place)
-				
+				infowindow.setContent(markerContentHTML);
+            	infowindow.open(map, fakethis);
 			}
 		}
-		setTimeout (function(){
-			markerContentHTML = '<div class="markerWindowContent">';
-		markerContentHTML += '<div class="name">Name: ' + place.name + '</div>';
-		markerContentHTML += '<div class="address">Address: ' + place.vicinity + '</div>';
-		markerContentHTML += '<div class="hours">Is it open?: ' + place.opening_hours.open_now + '</div>';
-		markerContentHTML += '<div class="rating">Rating: ' + place.rating + '</div>';
-		// markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
-		markerContentHTML += '</div>';
 		
-		return markerContentHTML;
-		}, 500);
+			
+			
+			
+		
 		
 
 	}
