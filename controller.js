@@ -31,25 +31,25 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		});
 
 		markerContentHTML = '<div class="infoWindowContent">';
-       	markerContentHTML += '<div class="total-pop">Total Population: ' + city.yearEstimate + '</div>';
-       	markerContentHTML += '<div class="pop-dens-last-year">2010 Census: ' + city.lastCensus + '</div>';
-       	markerContentHTML += '<div class="pop-change">Population Change %: ' + city.change + '</div>';
-       	markerContentHTML += '<div class="pop-dens">Population Density: ' + city.lastPopDensity + '</div>';
-       	markerContentHTML += '<div class="state">State: ' + city.state + '</div>';
-       	markerContentHTML += '<div class="land-area">Land Area: ' + city.landArea + '</div>';
-       	markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
-       	markerContentHTML += '<a href="#" onclick="displayBooze('+lat+','+lon+')">Booze</a><br>';
-       	markerContentHTML += '<a href="#" onclick="displayBar('+lat+','+lon+')">Bars</a>';
-       	markerContentHTML += '</div>';
+		markerContentHTML += '<div class="total-pop">Total Population: ' + city.yearEstimate + '</div>';
+		markerContentHTML += '<div class="pop-dens-last-year">2010 Census: ' + city.lastCensus + '</div>';
+		markerContentHTML += '<div class="pop-change">Population Change %: ' + city.change + '</div>';
+		markerContentHTML += '<div class="pop-dens">Population Density: ' + city.lastPopDensity + '</div>';
+		markerContentHTML += '<div class="state">State: ' + city.state + '</div>';
+		markerContentHTML += '<div class="land-area">Land Area: ' + city.landArea + '</div>';
+		markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
+		markerContentHTML += '<a href="#" onclick="displayBooze('+lat+','+lon+')">Booze</a><br>';
+		markerContentHTML += '<a href="#" onclick="displayBar('+lat+','+lon+')">Bars</a>';
+		markerContentHTML += '</div>';
 
-       	marker.content = markerContentHTML;
+		marker.content = markerContentHTML;
 
-       	google.maps.event.addListener(marker, 'click', function(){
-       		infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content)
-       		infoWindow.open($scope.map, marker)
-       	});
+		google.maps.event.addListener(marker, 'click', function(){
+			infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content)
+			infoWindow.open($scope.map, marker)
+		});
 
-       $scope.markers.push(marker);
+		$scope.markers.push(marker);
 
 
 	}
@@ -59,81 +59,82 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 	}
 
 	function createSelectedMarker(place) {
-			  var placeLoc = place.geometry.location;
-			  var marker = new google.maps.Marker({
-			    map: map,
-			    position: place.geometry.location,
-			    icon: place.icon
-			  });
+		var placeLoc = place.geometry.location;
+		var marker = new google.maps.Marker({
+			map: map,
+			position: place.geometry.location,
+			icon: place.icon
+		});
+	}
 
 	displayBooze = function(lat, lon){
 		
 		var pyrmont = {lat: lat, lng: lon};
 
-		  map = new google.maps.Map(document.getElementById('map'), {
-		    center: pyrmont,
-		    zoom: 14
-		  });
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: pyrmont,
+			zoom: 14
+		});
 
-		  infowindow = new google.maps.InfoWindow();
+		infowindow = new google.maps.InfoWindow();
 
-		  var service = new google.maps.places.PlacesService(map);
-		  service.nearbySearch({
-		    location: pyrmont,
-		    radius: "5000",
-		    types: ['liquor_store']
-		  }, callback);
-		}
+		var service = new google.maps.places.PlacesService(map);
+		service.nearbySearch({
+			location: pyrmont,
+			radius: "5000",
+			types: ['liquor_store']
+		}, callback);
+
 
 		function callback(results, status) {
 			console.log(results);
-		  if (status === google.maps.places.PlacesServiceStatus.OK) {
-		    for (var i = 0; i < results.length; i++) {
-		    createSelectedMarker(results[i]);
-		    }
-		  }
+			if (status === google.maps.places.PlacesServiceStatus.OK) {
+				for (var i = 0; i < results.length; i++) {
+					createSelectedMarker(results[i]);
+				}
+			}
 		}
 
-		  google.maps.event.addListener(marker, 'click', function() {
-		    infowindow.setContent(place.name);
-		    infowindow.open(map, this);
-		  });
-		}
+		google.maps.event.addListener(marker, 'click', function() {
+			infowindow.setContent(place.name);
+			infowindow.open(map, this);
+		});
+	}	
 
 
 	displayBar = function(lat, lon){
-		
+
 		var something = {lat: lat, lng: lon};
 
-		  map = new google.maps.Map(document.getElementById('map'), {
-		    center: something,
-		    zoom: 14
-		  });
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: something,
+			zoom: 14
+		});
 
-		  infowindow = new google.maps.InfoWindow();
+		infowindow = new google.maps.InfoWindow();
 
-		  var service = new google.maps.places.PlacesService(map);
-		  service.nearbySearch({
-		    location: something,
-		    radius: "5000",
-		    types: ['bar']
-		  }, callback);
-		
+		var service = new google.maps.places.PlacesService(map);
+		service.nearbySearch({
+			location: something,
+			radius: "5000",
+			types: ['bar']
+		}, callback);
+
 
 		function callback(results, status) {
 			console.log(results);
-		  if (status === google.maps.places.PlacesServiceStatus.OK) {
-		    for (var i = 0; i < results.length; i++) {
-		    	createSelectedMarker(results[i]);
-		    }
-		  }
+			if (status === google.maps.places.PlacesServiceStatus.OK) {
+				for (var i = 0; i < results.length; i++) {
+					createSelectedMarker(results[i]);
+				}
+			}
 		}
-		
-		  google.maps.event.addListener(marker, 'click', function() {
-		    infowindow.setContent(place.name);
-		    infowindow.open(map, this);
-		  });
-		}
+
+		google.maps.event.addListener(marker, 'click', function() {
+			infowindow.setContent(place.name);
+			infowindow.open(map, this);
+		});
+	}
 
 	$scope.updateMarkers = function(cities){
 		for(i = 0; i < $scope.markers.length; i++){
@@ -143,7 +144,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 			createMarker($scope.filteredCities[i], i);
 		}
 	}
-	
+
 
 
 	getDirections = function(lat, lon){
@@ -157,21 +158,24 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		var request = {
            	//Origin hardcoded to Atlanta. Require geocode current loc,
         	//or give user input
-			origin: 'Atlanta, GA', 
+        	origin: 'Atlanta, GA', 
         	destination:new google.maps.LatLng(lat,lon), 
         	travelMode: google.maps.DirectionsTravelMode.DRIVING
         };
 
         directionsService.route(request, function(response, status) {
-			if (status == google.maps.DirectionsStatus.OK) {
-            	directionsDisplay.setDirections(response);
-			}
+        	if (status == google.maps.DirectionsStatus.OK) {
+        		directionsDisplay.setDirections(response);
+        	}
         });
-	}
+    }
 
-	$scope.cities = cities
-	for( i=0; i < cities.length; i++){
-		createMarker(cities[i], i)
-	}
-
+    $scope.cities = cities
+    for( i=0; i < cities.length; i++){
+    	createMarker(cities[i], i)
+    }
 });
+
+
+
+
