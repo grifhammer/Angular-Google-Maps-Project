@@ -58,12 +58,12 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		google.maps.event.trigger($scope.markers[i-1], "click")
 	}
 
-	function createSelectedMarker(place, icon) {
+	function createSelectedMarker(place) {
 			  var placeLoc = place.geometry.location;
 			  var marker = new google.maps.Marker({
 			    map: map,
 			    position: place.geometry.location,
-			    icon: icon
+			    icon: place.icon
 			  });
 
 	displayBooze = function(lat, lon){
@@ -89,7 +89,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 			console.log(results);
 		  if (status === google.maps.places.PlacesServiceStatus.OK) {
 		    for (var i = 0; i < results.length; i++) {
-		      createSelectedMarker(results[i], "assets/images/beericon.png");
+		    createSelectedMarker(results[i]);
 		    }
 		  }
 		}
@@ -124,7 +124,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 			console.log(results);
 		  if (status === google.maps.places.PlacesServiceStatus.OK) {
 		    for (var i = 0; i < results.length; i++) {
-		      createSelectedMarker(results[i], "bar.png");
+		    	createSelectedMarker(results[i]);
 		    }
 		  }
 		}
