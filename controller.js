@@ -111,9 +111,15 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 				if (place.photos != undefined){
 					markerContentHTML += '<div class="markerPhoto"><img src="'+place.photos[0].getUrl({'maxWidth': 200, 'maxHeight': 200})+'"/></div>';
 				}
-				var weatherURL = 'http://api.openweathermap.org/data/2.5/weather?lat='+fakethis.position.lat()+'&lon='+fakethis.position.lng()+'&APPID=1d04e62091eabb4695bb6e9993976418';
+				var weatherURL = 'http://api.openweathermap.org/data/2.5/weather?lat='+fakethis.position.lat()+'&lon='+fakethis.position.lng()+'&units=imperial&APPID=1d04e62091eabb4695bb6e9993976418';
 				$.getJSON(weatherURL, function(weatherData){
-					
+					console.log(weatherData)
+					var weatherIconURL = 'http://openweathermap.org/img/w/'
+					var weatherIcon = weatherIconURL + weatherData.weather[0].icon + '.png';
+
+					markerContentHTML += '<div class ="weather"><img src="'+weatherIcon+'">Current Temp: '+weatherData.main.temp+'&degF</div>'
+					infowindow.setContent(markerContentHTML);
+					infowindow.open(map, fakethis);
 				});
 				markerContentHTML = 
 				markerContentHTML += '<div class="name">Name: ' + place.name + '</div>';
@@ -128,8 +134,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 				// markerContentHTML += '<a href="#" onclick="getDirections('+lat+','+lon+')">Get directions</a><br>';
 				markerContentHTML += '</div>';
 				
-				infowindow.setContent(markerContentHTML);
-				infowindow.open(map, fakethis);
+				
 			}
 		}
 		
