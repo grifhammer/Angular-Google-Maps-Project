@@ -1,5 +1,6 @@
 //Angular App Module and controller
 angular.module('myApp', []).controller('mapCtrl', function($scope){
+	resetMap = function(){
 	var mapOptions = {
 		zoom: 4,
 		//Center of the US
@@ -8,6 +9,9 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 
 	$scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 	$scope.markers = [];
+	}
+
+	resetMap();
 
 	var infoWindow = new google.maps.InfoWindow()
 
