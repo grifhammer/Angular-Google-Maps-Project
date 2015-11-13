@@ -70,6 +70,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 	
 
 	$scope.triggerClick = function(i){
+		$scope.resetMap();
 		google.maps.event.trigger($scope.markers[i-1], "click")
 	}
 
