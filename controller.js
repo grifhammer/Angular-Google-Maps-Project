@@ -154,7 +154,7 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 		var service = new google.maps.places.PlacesService(map);
 		service.nearbySearch({
 			location: pyrmont,
-			radius: "5000",
+			radius: "50000",
 			types: ['liquor_store']
 		}, callback);
 
