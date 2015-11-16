@@ -121,7 +121,6 @@ angular.module('myApp', []).controller('mapCtrl', function($scope){
 					infowindow.setContent(markerContentHTML);
 					infowindow.open(map, fakethis);
 				});
-				markerContentHTML = 
 				markerContentHTML += '<div class="name">Name: ' + place.name + '</div>';
 				markerContentHTML += '<div class="address">'+place.adr_address+'</div>';
 				markerContentHTML += '<div class="phoneNumber">Phone Number: '+place.formatted_phone_number + '</div>';
